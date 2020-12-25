@@ -174,7 +174,7 @@ public class ProductHelper {
       response.put("data", jsa);
 
       return response;
-  }
+    }
     
     public Product getById(String id) {
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
