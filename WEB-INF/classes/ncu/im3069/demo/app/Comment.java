@@ -36,7 +36,7 @@ public class Comment {
 
     /**
      * 實例化（Instantiates）一個新的（new）Comment 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增評價時
      *
      * @param case_id
      * @param requester_id
@@ -50,7 +50,7 @@ public class Comment {
 
     /**
      * 實例化（Instantiates）一個新的（new）Comment 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增評價時
      *
      * @param case_id
      * @param requester_id
@@ -68,7 +68,7 @@ public class Comment {
 
     /**
      * 實例化（Instantiates）一個新的（new）Comment 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增評價時
      *
      * @param case_id
      * @param requester_id

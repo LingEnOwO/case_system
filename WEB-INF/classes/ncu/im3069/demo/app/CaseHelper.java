@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 import org.json.*;
 
@@ -70,8 +71,8 @@ public class CaseHelper {
                 String title = rs.getString("phone");
                 String content = rs.getString("content");
                 String area = rs.getString("area");
-                String start_time = rs.getString("start_time");
-                String end_time = rs.getString("end_time");
+                java.util.Date start_time = rs.getDate("start_time");
+                java.util.Date end_time = rs.getDate("end_time");
                 String pay = rs.getString("pay");
                 
                 /** 將每一筆案件資料產生一名新Case物件 */
@@ -139,11 +140,11 @@ public class CaseHelper {
                 String title = rs.getString("title");
                 String content = rs.getString("content");
                 String area = rs.getString("area");
-                String start_time = rs.getString("start_time");
-                String end_time = rs.getString("end_time");
+                java.util.Date start_time = rs.getDate("start_time");
+                java.util.Date end_time = rs.getDate("end_time");
                 String pay = rs.getString("pay");
                 
-                /** 將每一筆商品資料產生一名新Product物件 */
+                /** 將每一筆商品資料產生一名新Case物件 */
                 c = new Case(case_id, requester_id, phone, title, content, area, start_time, end_time, pay);
             }
 
@@ -160,4 +161,214 @@ public class CaseHelper {
 
         return c;
     }
+
+    /**
+     * 建立該案件至資料庫
+     *
+     * @param c 一個案件之Case物件
+     * @return the JSON object 回傳SQL指令執行之結果
+     */
+    public JSONObject create(Case c) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "INSERT INTO `case_system`.`cases`(`requester_id`, `phone`, `title`, `content`, `area`, `start_time`, `end_time`, `pay`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            /** 取得所需之參數 */
+            int requester_id = c.getRequesterId();
+            String phone = c.getPhone();
+            String title = c.getTitle();
+            String content = c.getContent();
+            String area = c.getArea();
+            java.util.Date start_time = c.getStartTime();
+            java.util.Date end_time = c.getEndTime();
+            String pay = c.getPay();
+
+            /** 轉成sql的格式 */
+            SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, requester_id);
+            pres.setString(2, phone);
+            pres.setString(3, title);
+            pres.setString(4, content);
+            pres.setString(5, area);
+            pres.setString(6, sdFormat.format(start_time));
+            pres.setString(7, sdFormat.format(end_time));
+            pres.setString(8, pay);
+            
+            /** 執行新增之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+            
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end - start);
+
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("time", duration);
+        response.put("row", row);
+
+        return response;
+    }
+
+
+    //刪除案件
+    public JSONObject deleteById(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            
+            /** SQL指令 */
+            String sql = "DELETE FROM `case_system`.`cases` WHERE `id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end - start);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+
+        return response;
+    }
+
+    /**
+     * 更新一名案件之案件資料
+     *
+     * @param c 一個案件之Case物件
+     * @return the JSONObject 回傳SQL指令執行結果與執行之資料
+     */
+    public JSONObject update(Case c) {
+        /** 紀錄回傳之資料 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `case_system`.`cases` SET `phone` = ? ,`title` = ? , `content` = ? , `area` = ? , `start_time` = ? , `end_time` = ? , `pay` = ? WHERE `id` = ?";
+            /** 取得所需之參數 */
+            String phone = c.getPhone();
+            String title = c.getTitle();
+            String content = c.getContent();
+            String area = c.getArea();
+            java.util.Date start_time = c.getStartTime();
+            java.util.Date end_time = c.getEndTime();
+            String pay = c.getPay();
+            int id = c.getCaseId();
+            
+            /** 轉成sql的格式 */
+            SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, phone);
+            pres.setString(2, title);
+            pres.setString(3, content);
+            pres.setString(4, area);
+            pres.setString(5, sdFormat.format(start_time));
+            pres.setString(6, sdFormat.format(end_time));
+            pres.setString(7, pay);
+            pres.setInt(8, id);
+
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end - start);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+    }
+
 }
