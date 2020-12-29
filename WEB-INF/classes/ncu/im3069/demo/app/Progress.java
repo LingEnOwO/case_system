@@ -1,5 +1,7 @@
 package ncu.im3069.demo.app;
 
+import java.util.Date;
+
 import org.json.*;
 
 public class Progress {
@@ -16,13 +18,13 @@ public class Progress {
     private int applicated;
 
     /** applicated_time，接受時間 */
-    private String applicated_time;
+    private Date applicated_time;
 
     /** finished，是否完成 */
     private int finished;
 
     /** finished_time，完成時間 */
-    private String finished_time;
+    private Date finished_time;
 
 
     /**
@@ -59,7 +61,7 @@ public class Progress {
      * @param applicated
      * @param applicated_time
      */
-	public Progress(int case_id, int requester_id, int applicant_id, int applicated, String applicated_time) {
+	public Progress(int case_id, int requester_id, int applicant_id, int applicated, Date applicated_time) {
         this.case_id = case_id;
         this.requester_id = requester_id;
         this.applicant_id = applicant_id;
@@ -79,7 +81,7 @@ public class Progress {
      * @param finished
      * @param finished_time
      */
-	public Progress(int case_id, int requester_id, int applicant_id, int applicated, String applicated_time, int finished, String finished_time) {
+	public Progress(int case_id, int requester_id, int applicant_id, int applicated, Date applicated_time, int finished, Date finished_time) {
         this.case_id = case_id;
         this.requester_id = requester_id;
         this.applicant_id = applicant_id;
@@ -130,7 +132,7 @@ public class Progress {
      *
      * @return
      */
-	public String getApplicatedTime() {
+	public Date getApplicatedTime() {
 		return this.applicated_time;
     }
 
@@ -148,7 +150,7 @@ public class Progress {
      *
      * @return
      */
-	public String getFinishedTime() {
+	public Date getFinishedTime() {
 		return this.finished_time;
     }
 

@@ -118,7 +118,7 @@ public class Member {
      *
      * @return the id 回傳會員編號
      */
-    public int getID() {
+    public int getId() {
         return this.id;
     }
 
@@ -207,7 +207,7 @@ public class Member {
     public JSONObject getData() {
         /** 透過JSONObject將該名會員所需之資料全部進行封裝*/ 
         JSONObject jso = new JSONObject();
-        jso.put("id", getID());
+        jso.put("id", getId());
         jso.put("name", getName());
         jso.put("email", getEmail());
         jso.put("password", getPassword());

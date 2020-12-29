@@ -23,8 +23,8 @@ public class Case {
     /** area，案件地點 */
     private String area;
 
-    /** start_time，案件開始時間 */
-    private Date start_time;
+    /** case_time，案件時間 */
+    private String case_time;
 
     /** end_time，案件截止時間 */
     private Date  end_time;
@@ -70,14 +70,14 @@ public class Case {
      * @param end_time
      * @param pay
      */
-	public Case(int case_id, int requester_id,String phone, String title, String content, String area, Date start_time, Date end_time, String pay) {
+	public Case(int case_id, int requester_id,String phone, String title, String content, String area, String case_time, Date end_time, String pay) {
         this.case_id = case_id;
         this.requester_id = requester_id;
         this.phone = phone;
         this.title = title;
         this.content = content;
         this.area = area;
-        this.start_time = start_time;
+        this.case_time = case_time;
         this.end_time = end_time;
 		this.pay = pay;
 	}
@@ -141,8 +141,8 @@ public class Case {
      *
      * @return
      */
-	public Date getStartTime() {
-		return this.start_time;
+	public String getCaseTime() {
+		return this.case_time;
     }
 
     /**
@@ -177,7 +177,7 @@ public class Case {
         jso.put("title", getTitle());
         jso.put("content", getContent());
         jso.put("area", getArea());
-        jso.put("start_time", getStartTime());
+        jso.put("case_time", getCaseTime());
         jso.put("end_time", getEndTime());
         jso.put("pay", getPay());
 
