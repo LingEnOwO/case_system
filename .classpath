@@ -12,4 +12,5 @@
 	<classpathentry kind="output" path="WEB-INF/classes"/>
     <classpathentry kind="lib" path="WEB-INF/lib/json-20180813.jar"/>
     <classpathentry kind="lib" path="WEB-INF/lib/servlet-api.jar"/>
+    <classpathentry kind="lib" path="WEB-INF/lib/mysql-connector-java-8.0.17.jar"/>
 </classpath>

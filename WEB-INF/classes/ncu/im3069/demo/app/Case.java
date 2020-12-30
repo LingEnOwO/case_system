@@ -55,7 +55,33 @@ public class Case {
 		this.title = title;
 		this.pay = pay;
     }
+
+
+      /**
+     * 實例化（Instantiates）一個新的（new）Product 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     *
+     * @param requester_id 
+     * @param phone
+     * @param title 
+     * @param content
+     * @param area
+     * @param start_time
+     * @param end_time
+     * @param pay
+     */
+	public Case(int requester_id, String phone, String title, String content, String area, String case_time, Date end_time, String pay) {
+        this.requester_id = requester_id;
+        this.phone = phone;
+        this.title = title;
+        this.content = content;
+        this.area = area;
+        this.case_time = case_time;
+        this.end_time = end_time;
+		this.pay = pay;
+    }
     
+
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
      * 採用多載（overload）方法進行，此建構子用於新增產品時

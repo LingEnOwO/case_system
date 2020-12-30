@@ -36,8 +36,7 @@ public class MemberController extends HttpServlet {
      * @throws ServletException the servlet exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
@@ -110,7 +109,7 @@ public class MemberController extends HttpServlet {
         }
         else {
             /** 透過MemberHelper物件的getByID()方法自資料庫取回該名會員之資料，回傳之資料為JSONObject物件 */
-            JSONObject query = mh.getByID(id);
+            JSONObject query = mh.getById(Integer.parseInt(id));
             
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
@@ -141,7 +140,7 @@ public class MemberController extends HttpServlet {
         int id = jso.getInt("id");
         
         /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
-        JSONObject query = mh.deleteByID(id);
+        JSONObject query = mh.deleteById(id);
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();

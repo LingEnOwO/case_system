@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>評價</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/comment_for_applicant.js"></script>
+
+    <!-- Bootstrap core CSS -->
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="css/comment.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    <div class="container">
+  <div class="py-5 text-center">
+    <h2>評價系統</h2>
+    <p class="lead">請留下您對發案者的評價，幫助大家變得更好</p>
+  </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">評價</h4>
+      <form class="comment" >
+
+        <div class="mb-3">
+          <label >留言</label>
+          <input type="text" class="form-control" id="comment" placeholder="你的留言">
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label for="country">您的給分</label>
+            <select class="custom-select d-block w-100" id="select" required>
+              <option value="">給分</option>
+              <option value= 1>1分</option>
+              <option value= 2>2分</option>
+              <option value= 3>3分</option>
+              <option value= 4>4分</option>
+              <option value= 5>5分</option>
+            </select>
+            <div class="invalid-feedback">
+              選取有效的評價分數
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" id="submit" type="button">送出評價</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -60,7 +60,7 @@ public class DBMgr {
         /** 設定資料庫連線是否要使用SSL連線，由於預設未使用SSL連線因此本部分要指定為False */
         props.setProperty("useSSL", "false");
         /** 設定資料庫使用之時區 */
-        props.setProperty("serverTimezone", "UTC");
+        props.setProperty("serverTimezone", "UTC+8");
         /** 設定是否使用Unicode，此部分要設定為True避免中文字會發生問題 */
         props.setProperty("useUnicode", "true");
         /** 設定使用之字元編碼，採用UTF-8 */

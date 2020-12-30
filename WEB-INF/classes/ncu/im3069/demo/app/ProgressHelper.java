@@ -29,7 +29,7 @@ public class ProgressHelper {
         return ph;
     }
 
-    public JSONObject getALL(){
+    public JSONObject getAll(){
         /** 新建一個 Progress 物件之 p 變數，用於紀錄每一位查詢回之案件進度 */
     	Progress p = null;
         /** 用於儲存所有檢索回之案件，以JSONArray方式儲存 */
@@ -104,9 +104,11 @@ public class ProgressHelper {
         return response;
     }
 
-    public Progress getByCaseId(int id){
+    public JSONObject getByCaseId(int id){
         /** 新建一個 Progress 物件之 p 變數，用於紀錄每一位查詢回之案件資料 */
         Progress p = null;
+        /** 用於儲存所有檢索回之案件進度，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -141,6 +143,8 @@ public class ProgressHelper {
                 
                 /** 將每一筆進度資料產生一名新Progress物件 */
                 p = new Progress(case_id, requester_id, applicant_id, applicated, applicated_time, finished, finished_time);
+                /** 取出該項案件之資料並封裝至 JSONsonArray 內 */
+                jsa.put(p.getData());
             }
 
         } catch (SQLException e) {
@@ -154,12 +158,19 @@ public class ProgressHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        return p;
+        /** 將進度資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", jsa);
+
+        return response;
     }
 
-    public Progress getByRequesterId(int id){
+    public JSONObject getByRequesterId(int id){
         /** 新建一個 Progress 物件之 p 變數，用於紀錄每一位查詢回之案件資料 */
         Progress p = null;
+        /** 用於儲存所有檢索回之案件，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -194,6 +205,8 @@ public class ProgressHelper {
                 
                 /** 將每一筆進度資料產生一名新Progress物件 */
                 p = new Progress(case_id, requester_id, applicant_id, applicated, applicated_time, finished, finished_time);
+                /** 取出該項案件之資料並封裝至 JSONsonArray 內 */
+                jsa.put(p.getData());
             }
 
         } catch (SQLException e) {
@@ -207,7 +220,12 @@ public class ProgressHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        return p;
+        /** 將進度資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", jsa);
+
+        return response;
     }
 
     public Progress getByApplicantId(int id){
@@ -382,6 +400,59 @@ public class ProgressHelper {
         response.put("row", row);
         response.put("time", duration);
         response.put("data", jsa);
+
+        return response;
+    }
+
+    //刪除案件
+    public JSONObject deleteById(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            
+            /** SQL指令 */
+            String sql = "DELETE FROM `case_system`.`progress` WHERE `case_id` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end - start);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
 
         return response;
     }

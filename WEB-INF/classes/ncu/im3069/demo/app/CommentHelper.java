@@ -29,8 +29,8 @@ public class CommentHelper {
         return ch;
     }
 
-    public JSONObject getALL(){
-        /** 新建一個 Case 物件之 c 變數，用於紀錄每一位查詢回之案件資料 */
+    public JSONObject getAll(){
+        /** 新建一個 Comment 物件之 c 變數，用於紀錄每一位查詢回之案件資料 */
     	Comment c = null;
         /** 用於儲存所有檢索回之案件，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
@@ -104,9 +104,11 @@ public class CommentHelper {
         return response;
     }
 
-    public Comment getByCaseId(int id){
+    public JSONObject getByCaseId(int id){
         /** 新建一個 Comment 物件之 c 變數，用於紀錄每一位查詢回之案件資料 */
         Comment c = null;
+        /** 用於儲存所有檢索回之案件評鑑，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -141,6 +143,8 @@ public class CommentHelper {
                 
                 /** 將每一筆商品資料產生一名新Comment物件 */
                 c = new Comment(case_id, requester_id, applicant_id, requester_evaluation, applicant_evaluation, requester_comment, applicant_comment);
+                /** 取出該項案件之資料並封裝至 JSONsonArray 內 */
+                jsa.put(c.getData());
             }
 
         } catch (SQLException e) {
@@ -154,12 +158,19 @@ public class CommentHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        return c;
+        /** 將進度資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", jsa);
+
+        return response;
     }
 
-    public Comment getByRequesterId(int id){
+    public JSONObject getByRequesterId(int id){
         /** 新建一個 Comment 物件之 c 變數，用於紀錄每一位查詢回之案件資料 */
         Comment c = null;
+        /** 用於儲存所有檢索回之案件評鑑，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -194,6 +205,8 @@ public class CommentHelper {
                 
                 /** 將每一筆商品資料產生一名新Comment物件 */
                 c = new Comment(case_id, requester_id, applicant_id, requester_evaluation, applicant_evaluation, requester_comment, applicant_comment);
+                /** 取出該項案件之資料並封裝至 JSONsonArray 內 */
+                jsa.put(c.getData());
             }
 
         } catch (SQLException e) {
@@ -207,12 +220,19 @@ public class CommentHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        return c;
+        /** 將進度資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", jsa);
+
+        return response;
     }
 
-    public Comment getByApplicantId(int id){
+    public JSONObject getByApplicantId(int id){
         /** 新建一個 Comment 物件之 c 變數，用於紀錄每一位查詢回之案件資料 */
         Comment c = null;
+        /** 用於儲存所有檢索回之案件評鑑，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -247,6 +267,8 @@ public class CommentHelper {
                 
                 /** 將每一筆商品資料產生一名新Comment物件 */
                 c = new Comment(case_id, requester_id, applicant_id, requester_evaluation, applicant_evaluation, requester_comment, applicant_comment);
+                /** 取出該項案件之資料並封裝至 JSONsonArray 內 */
+                jsa.put(c.getData());
             }
 
         } catch (SQLException e) {
@@ -260,7 +282,12 @@ public class CommentHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        return c;
+        /** 將進度資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", jsa);
+
+        return response;
     }
 
     /**
@@ -349,8 +376,8 @@ public class CommentHelper {
             /** SQL指令 */
             String sql = "Update `case_system`.`comments` SET `requester_evaluation` = ? ,`requester_comment` = ? WHERE `case_id` = ?";
             /** 取得所需之參數 */
-            int requester_evaluation = c.getRequesterEvaluation();
-            String requester_comment = c.getRequesterComment();
+            int requester_evaluation = c.getEvaluation();
+            String requester_comment = c.getComment();
             int case_id = c.getCaseId();
 
             /** 將參數回填至SQL指令當中 */
@@ -414,8 +441,8 @@ public class CommentHelper {
             /** SQL指令 */
             String sql = "Update `case_system`.`comments` SET `applicant_evaluation` = ? ,`applicant_comment` = ? WHERE `case_id` = ?";
             /** 取得所需之參數 */
-            int applicant_evaluation = c.getApplicantEvaluation();
-            String applicant_comment = c.getApplicantComment();
+            int applicant_evaluation = c.getEvaluation();
+            String applicant_comment = c.getComment();
             int case_id = c.getCaseId();
 
             /** 將參數回填至SQL指令當中 */

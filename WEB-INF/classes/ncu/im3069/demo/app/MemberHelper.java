@@ -55,7 +55,7 @@ public class MemberHelper {
      * @param id 會員編號
      * @return the JSONObject 回傳SQL執行結果
      */
-    public JSONObject deleteByID(int id) {
+    public JSONObject deleteById(int id) {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
@@ -193,7 +193,7 @@ public class MemberHelper {
      * @param id 會員編號
      * @return the JSON object 回傳SQL執行結果與該會員編號之會員資料
      */
-    public JSONObject getByID(int id) {
+    public JSONObject getById(int id) {
         /** 新建一個 Member 物件之 m 變數，用於紀錄每一位查詢回之會員資料 */
         Member m = null;
         /** 用於儲存所有檢索回之會員，以JSONArray方式儲存 */

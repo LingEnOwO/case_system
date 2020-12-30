@@ -12,6 +12,12 @@ public class Comment {
     /** applicant_id，案主編號 */
     private int applicant_id;
 
+    /** evaluation，評價 */
+    private int evaluation;
+
+    /** comment，評論 */
+    private String comment;
+
     /** requester_evaluation，案主評價 */
     private int requester_evaluation;
 
@@ -91,6 +97,20 @@ public class Comment {
     }
 
     /**
+     * 實例化（Instantiates）一個新的（new）Comment 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增評價時
+     *
+     * @param case_id
+     * @param evaluation
+     * @param comment
+     */
+	public Comment(int case_id, int evaluation, String comment) {
+        this.case_id = case_id;
+        this.evaluation = evaluation;
+        this.comment = comment;
+    }
+
+    /**
      * 取得案件編號
      *
      * @return
@@ -133,6 +153,24 @@ public class Comment {
      */
 	public int getApplicantEvaluation() {
 		return this.applicant_evaluation;
+    }
+
+    /**
+     * 取得評價
+     *
+     * @return
+     */
+	public int getEvaluation() {
+		return this.evaluation;
+    }
+
+    /**
+     * 取得評語
+     *
+     * @return
+     */
+	public String getComment() {
+		return this.comment;
     }
 
     /**
