@@ -43,11 +43,11 @@ $(document).ready(function() {
                 	if(response.status == 200) {
                         //看controler長怎樣抓id進去
                         setCookie("userID", response['response']['data'][0]['id']);
-                    	alart('登入成功!');
+                    	alert('登入成功!');
                     	window.location.assign("SA_All_Case.html");
                     }
                     else if(response.status != 200){
-                            alart('此組合不存在!');
+                            alert('此組合不存在!');
                             window.location.reload();
                     }                
                 },
