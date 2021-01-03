@@ -2,7 +2,7 @@ $(document).ready(function() {
 // 處理表單點擊事件
     var $form = $('#submit');
     $form.click(function() {
-    submit();
+        submit();
     });
 
     function submit() {
@@ -46,10 +46,11 @@ $(document).ready(function() {
                 timeout: 5000,
                 success: function (response) {
                     if(response.status == 200){
-                        alart('註冊成功!');
+                        alert('註冊成功!');
                         window.location.assign("index.html");
                     }
                     else if(response.status == 400 ) {
+                        console.log(response);
                         alert("新增帳號失敗，帳號重複！");
                         window.location.reload();
                         }

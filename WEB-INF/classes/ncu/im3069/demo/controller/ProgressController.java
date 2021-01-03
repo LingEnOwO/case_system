@@ -1,6 +1,7 @@
 package ncu.im3069.demo.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -10,7 +11,8 @@ import ncu.im3069.demo.app.Progress;
 import ncu.im3069.demo.app.ProgressHelper;
 import ncu.im3069.tools.JsonReader;
 
-public class ProgressController {
+public class ProgressController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     
 	private ProgressHelper ph =  ProgressHelper.getHelper();
 
@@ -21,28 +23,30 @@ public class ProgressController {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        String queryString = URLDecoder.decode(request.getQueryString(), "UTF-8");
+        JSONObject jsq = new JSONObject(queryString);
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        int requester_id = Integer.parseInt(jsr.getParameter("requester_id"));
-        int applicant_id = Integer.parseInt(jsr.getParameter("applicant_id"));
-        int case_id = Integer.parseInt(jsr.getParameter("case_id"));
+        int requester_id = Integer.parseInt(jsq.getString("requester_id"));
+        int applicant_id = Integer.parseInt(jsq.getString("applicant_id"));
+        int case_id = Integer.parseInt(jsq.getString("case_id"));
 
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回該案件之資料，否則代表要取回全部資料庫內案件之資料 */
-        if (!jsr.getParameter("requester_id").isEmpty()) {
+        if (!jsq.getString("requester_id").isEmpty()) {
             JSONObject query = ph.getByRequesterId(requester_id);
             resp.put("status", "200");
             resp.put("message", "該案主案件進度資料取得成功");
             resp.put("response", query);
         }
-        else if(!jsr.getParameter("applicant_id").isEmpty()){
+        else if(!jsq.getString("applicant_id").isEmpty()){
             JSONObject query = ph.getByRequesterId(applicant_id);
             resp.put("status", "200");
             resp.put("message", "該接案者案件進度資料取得成功");
             resp.put("response", query);
         }
-        else if(!jsr.getParameter("case_id").isEmpty()){
+        else if(!jsq.getString("case_id").isEmpty()){
             JSONObject query = ph.getByCaseId(case_id);
             resp.put("status", "200");
             resp.put("message", "該接案者案件進度資料取得成功");

@@ -43,6 +43,18 @@ public class Progress {
      *
      * @param case_id 
      * @param requester_id
+     */
+	public Progress(int case_id, int requester_id) {
+        this.case_id = case_id;
+        this.requester_id = requester_id;
+    }
+
+    /**
+     * 實例化（Instantiates）一個新的（new）Progress 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增進度時
+     *
+     * @param case_id 
+     * @param requester_id
      * @param applicant_id
      */
 	public Progress(int case_id, int requester_id, int applicant_id) {

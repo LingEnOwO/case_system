@@ -16,7 +16,7 @@ function getCookie(cname) {
 // 取得網址參數
 var url_string = window.location.href;
 var url = new URL(url_string);
-var id = url.searchParams.get("id");
+var id = url.searchParams.get("caseID");
 var sql_num = 0;
 
 function getMember() {

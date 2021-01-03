@@ -1,7 +1,5 @@
 package ncu.im3069.demo.app;
 
-import java.util.Date;
-
 import org.json.*;
 
 public class Case {
@@ -27,7 +25,7 @@ public class Case {
     private String case_time;
 
     /** end_time，案件截止時間 */
-    private Date  end_time;
+    private String  end_time;
 
     /** pay，案件報酬 */
     private String pay;
@@ -70,7 +68,7 @@ public class Case {
      * @param end_time
      * @param pay
      */
-	public Case(int requester_id, String phone, String title, String content, String area, String case_time, Date end_time, String pay) {
+	public Case(int requester_id, String phone, String title, String content, String area, String case_time, String end_time, String pay) {
         this.requester_id = requester_id;
         this.phone = phone;
         this.title = title;
@@ -96,7 +94,7 @@ public class Case {
      * @param end_time
      * @param pay
      */
-	public Case(int case_id, int requester_id,String phone, String title, String content, String area, String case_time, Date end_time, String pay) {
+	public Case(int case_id, int requester_id,String phone, String title, String content, String area, String case_time, String end_time, String pay) {
         this.case_id = case_id;
         this.requester_id = requester_id;
         this.phone = phone;
@@ -176,7 +174,7 @@ public class Case {
      *
      * @return
      */
-	public Date getEndTime() {
+	public String getEndTime() {
 		return this.end_time;
     }
 

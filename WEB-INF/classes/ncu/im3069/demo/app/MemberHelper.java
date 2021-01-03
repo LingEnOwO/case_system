@@ -225,24 +225,26 @@ public class MemberHelper {
 
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
             
-            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            while(rs.next()) {
+                /** 每執行一次迴圈表示有一筆資料 */
+                row += 1;
+                /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
 
-            /** 將 ResultSet 之資料取出 */
-            int member_id = rs.getInt("id");
-            String name = rs.getString("name");
-            String email = rs.getString("email");
-            password = rs.getString("password");
-            int login_times = rs.getInt("login_times");
-            float requester_evaluation = rs.getInt("requester_evaluation");
-            float applicant_evaluation = rs.getInt("applicant_evaluation");
-            
-            /** 將每一筆會員資料產生一名新Member物件 */
-            m = new Member(member_id, email, password, name, login_times, requester_evaluation, applicant_evaluation);
-            /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
-            jsa.put(m.getData());
-            
+                /** 將 ResultSet 之資料取出 */
+                int member_id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                password = rs.getString("password");
+                int login_times = rs.getInt("login_times");
+                float requester_evaluation = rs.getInt("requester_evaluation");
+                float applicant_evaluation = rs.getInt("applicant_evaluation");
+                
+                /** 將每一筆會員資料產生一名新Member物件 */
+                m = new Member(member_id, email, password, name, login_times, requester_evaluation, applicant_evaluation);
+                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
+                jsa.put(m.getData());
+            }
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
             System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
@@ -265,13 +267,13 @@ public class MemberHelper {
         response.put("row", row);
         response.put("time", duration);
         response.put("data", jsa);
-        if(password == login_password){
-            response.put("message", "帳號密碼相符");
-            response.put("response", 200);
+        if(row > 0){
+            response.put("message", "登入成功");
+            response.put("status", 200);
         }
         else{
             response.put("message", "帳號密碼不符");
-            response.put("response", 400);
+            response.put("status", 400);
         }
 
         return response;
@@ -495,17 +497,17 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `case_system`.`members` SET `name` = ? ,`password` = ? WHERE `email` = ?";
+            String sql = "Update `case_system`.`members` SET `name` = ? ,`password` = ? WHERE `id` = ?";
             /** 取得所需之參數 */
             String name = m.getName();
-            String email = m.getEmail();
+            int id = m.getId();
             String password = m.getPassword();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, name);
             pres.setString(2, password);
-            pres.setString(3, email);
+            pres.setInt(3, id);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 

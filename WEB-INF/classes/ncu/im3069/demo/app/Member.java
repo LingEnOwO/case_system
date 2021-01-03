@@ -1,7 +1,6 @@
 package ncu.im3069.demo.app;
 
 import org.json.*;
-import java.util.Calendar;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -73,6 +72,20 @@ public class Member {
         this.name = name;
     }
     
+    /**
+     * 實例化（Instantiates）一個新的（new）Member物件<br>
+     * 採用多載（overload）方法進行，此建構子用於更新會員資料時，產生一名會員同時需要去資料庫檢索原有更新時間分鐘數與會員組別
+     * 
+     * @param id 會員編號
+     * @param password 會員密碼
+     * @param name 會員姓名
+     */
+    public Member(int id, String password, String name) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+    }
+
     /**
      * 實例化（Instantiates）一個新的（new）Member物件<br>
      * 採用多載（overload）方法進行，此建構子用於查詢會員資料時，將每一筆資料新增為一個會員物件
@@ -184,17 +197,9 @@ public class Member {
     public JSONObject update() {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
-        /** 取得更新資料時間（即現在之時間）之分鐘數 */
-        Calendar calendar = Calendar.getInstance();
-        this.login_times = calendar.get(Calendar.MINUTE);
         
-        /** 檢查該名會員是否已經在資料庫 */
-        if(this.id != 0) {
-            /** 若有則將目前更新後之資料更新至資料庫中 */
-            mh.updateLoginTimes(this);
-            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
-            data = mh.update(this);
-        }
+        /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+        data = mh.update(this);
         
         return data;
     }

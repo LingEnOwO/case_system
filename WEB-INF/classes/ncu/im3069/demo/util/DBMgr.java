@@ -23,7 +23,7 @@ public class DBMgr {
 
     /** DB_URL常數，指定資料庫所在之IP或網域、Port號碼與指定所要使用資料庫 */
 //    static final String DB_URL = "jdbc:mysql://localhost:3306/missa?allowPublicKeyRetrieval=true&useSSL=false";
-    static final String DB_URL = "jdbc:mysql://140.115.81.251:3306/case_system";
+    static final String DB_URL = "jdbc:mysql://140.115.81.251:3306/case_system?allowPublicKeyRetrieval=true&useSSL=false";
 
     /** USER常數，所要使用之資料庫使用者帳號 */
     static final String USER = "case";
@@ -60,7 +60,7 @@ public class DBMgr {
         /** 設定資料庫連線是否要使用SSL連線，由於預設未使用SSL連線因此本部分要指定為False */
         props.setProperty("useSSL", "false");
         /** 設定資料庫使用之時區 */
-        props.setProperty("serverTimezone", "UTC+8");
+        props.setProperty("serverTimezone", "UTC");
         /** 設定是否使用Unicode，此部分要設定為True避免中文字會發生問題 */
         props.setProperty("useUnicode", "true");
         /** 設定使用之字元編碼，採用UTF-8 */

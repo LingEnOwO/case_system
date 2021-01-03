@@ -10,4 +10,34 @@
         <servlet-name>member</servlet-name>
         <url-pattern>/api/member.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>case</servlet-name>
+        <servlet-class>ncu.im3069.demo.controller.CaseController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>case</servlet-name>
+        <url-pattern>/api/case.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>comment</servlet-name>
+        <servlet-class>ncu.im3069.demo.controller.CommentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>comment</servlet-name>
+        <url-pattern>/api/comment.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>progress</servlet-name>
+        <servlet-class>ncu.im3069.demo.controller.ProgressController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>progress</servlet-name>
+        <url-pattern>/api/progress.do</url-pattern>
+    </servlet-mapping>
 </web-app>

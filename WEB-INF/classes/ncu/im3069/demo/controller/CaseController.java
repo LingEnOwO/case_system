@@ -1,8 +1,7 @@
 package ncu.im3069.demo.controller;
 
 import java.io.IOException;
-
-import java.text.SimpleDateFormat;
+import java.net.URLDecoder;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.*;
@@ -11,6 +10,8 @@ import org.json.*;
 
 import ncu.im3069.demo.app.Case;
 import ncu.im3069.demo.app.CaseHelper;
+import ncu.im3069.demo.app.Progress;
+import ncu.im3069.demo.app.ProgressHelper;
 import ncu.im3069.tools.JsonReader;
 
 
@@ -18,7 +19,8 @@ import ncu.im3069.tools.JsonReader;
 public class CaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CaseHelper ch =  CaseHelper.getHelper();
+    private CaseHelper ch =  CaseHelper.getHelper();
+    private ProgressHelper ph =  ProgressHelper.getHelper();
 
     public CaseController() {
         super();
@@ -28,14 +30,24 @@ public class CaseController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        String queryString = URLDecoder.decode(request.getQueryString(), "UTF-8");
+        JSONObject jsq = new JSONObject(queryString);
         JsonReader jsr = new JsonReader(request);
+
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        int requester_id = Integer.parseInt(jsr.getParameter("requester_id"));
+        int requester_id = jsq.getInt("id");
+        int case_id = jsq.getInt("case_id");
 
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回該案件之資料，否則代表要取回全部資料庫內案件之資料 */
-        if (!jsr.getParameter("requester_id").isEmpty()) {
-            JSONObject query = ch.getById(requester_id);
+        if (requester_id != 0) {
+            JSONObject query = ch.getByRequesterId(requester_id);
+            resp.put("status", "200");
+            resp.put("message", "該案主案件資料取得成功");
+            resp.put("response", query);
+        }
+        if (case_id != 0) {
+            JSONObject query = ch.getById(case_id);
             resp.put("status", "200");
             resp.put("message", "該案主案件資料取得成功");
             resp.put("response", query);
@@ -52,12 +64,9 @@ public class CaseController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
-        
-        /** 轉成sql的格式 */
-        SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
         /** 取出經解析到JSONObject之Request參數 */
         int requester_id = jso.getInt("requester_id");
@@ -66,40 +75,30 @@ public class CaseController extends HttpServlet {
         String content = jso.getString("content");
         String area = jso.getString("area");
         String case_time = jso.getString("case_time");
-        java.util.Date end_time = new java.util.Date();
-        try {
-            end_time = sdFormat.parse(jso.getString("end_time"));
-            } catch (Exception e) {
-            e.printStackTrace();
-            } 
+        String end_time = jso.getString("end_time").replace("T", " ");
+            
         String pay = jso.getString("pay");
 
         
         /** 建立一個新的會員物件 */
         Case c = new Case(requester_id, phone, title, content, area, case_time, end_time, pay);
+        // int case_id = ch.getCaseId(requester_id, end_time);
+        // Progress p = new Progress(case_id, requester_id);
         
-        /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if(phone.isEmpty() || title.isEmpty() || content.isEmpty() || area.isEmpty() || case_time.isEmpty() || pay.isEmpty()) {
-            /** 以字串組出JSON格式之資料 */
-            String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
-            /** 透過JsonReader物件回傳到前端（以字串方式） */
-            jsr.response(resp, response);
-        }
-        /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
-        else
-        {
-            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
-            JSONObject data = ch.create(c);
-            
-            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-            JSONObject resp = new JSONObject();
-            resp.put("status", "200");
-            resp.put("message", "成功更新案件資料");
-            resp.put("response", data);
-            
-            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-            jsr.response(resp, response);
-        }
+        /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
+        JSONObject data = ch.create(c);
+        // JSONObject pData = ph.create(p);
+        
+        /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+        JSONObject resp = new JSONObject();
+        resp.put("status", "200");
+        resp.put("message", "成功更新案件資料");
+        resp.put("response", data);
+        // resp.put("response", pData);
+        
+        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+        jsr.response(resp, response);
+        
 	}
 
     /**
@@ -147,9 +146,6 @@ public class CaseController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
         
-        /** 轉成sql的格式 */
-        SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
         /** 取出經解析到JSONObject之Request參數 */
         int requester_id = jso.getInt("requester_id");
         String phone = jso.getString("phone");
@@ -157,12 +153,7 @@ public class CaseController extends HttpServlet {
         String content = jso.getString("content");
         String area = jso.getString("area");
         String case_time = jso.getString("case_time");
-        java.util.Date end_time = new java.util.Date();
-        try {
-            end_time = sdFormat.parse(jso.getString("end_time"));
-            } catch (Exception e) {
-            e.printStackTrace();
-            } 
+        String end_time = jso.getString("end_time").replace("T", " ");
         String pay = jso.getString("pay");
 
         /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */

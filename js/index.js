@@ -6,7 +6,7 @@ $(document).ready(function() {
     });
     //新增COOKIE的函數
     function setCookie(cname, cvalue) {
-        document.cookie = encodeURIComponen(cname) + "=" + encodeURIComponen(cvalue) + ";" + "path=/";
+        document.cookie = encodeURIComponent(cname) + "=" + encodeURIComponent(cvalue) + ";" + "path=/";
     }
     function submit() {
         var email = $('#email').val();
@@ -22,10 +22,10 @@ $(document).ready(function() {
             alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
         }
         else {
-                var data_object = {
-                "email": email,
-                "password": password
-                };
+            var data_object = {
+            'email': email,
+            "password": password
+            };
 
             // 將JSON格式轉換成字串
             var data_string = JSON.stringify(data_object);
@@ -40,10 +40,11 @@ $(document).ready(function() {
                 timeout: 5000,
                 //成功會進入案件瀏覽網頁或顯示錯誤訊息
                 success: function (response) {
-                	if(response.status == 200) {
+                	if(response['status'] == 200) {
                         //看controler長怎樣抓id進去
-                        setCookie("userID", response['response']['data'][0]['id']);
-                    	alert('登入成功!');
+                        console.log(response);
+                        setCookie("userID", response.data[0]["id"]);
+                    	alert(response.message);
                     	window.location.assign("SA_All_Case.html");
                     }
                     else if(response.status != 200){

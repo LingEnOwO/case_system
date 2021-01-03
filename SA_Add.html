@@ -13,12 +13,12 @@
     <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
-    <link rel="stylesheet" href="SA_Add_use.css">
-    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/SA_Add_use.css">
+    <script src="js/SA_Add_use.js"></script>
     <link href="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <script src="SA_Add_use.js"></script>
+    
     <div class="container">
         <div class="py-5 text-center">
             <h2>案件新增系統</h2>
@@ -28,79 +28,51 @@
     
     <div class="col-md-8 order-md-1">
         <h4 class="mb-3">新增案件</h4>
-        <form action ="SA_Add_use.js" method = "get">
-        <div class="row">
+        <form action ="#" method = "post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="Title">案件標題</label>
+                    <input type="text" class="form-control" id="title" placeholder="" value="" required maxlength = "50">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="Content">案件內容</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="content" placeholder="" required maxlength = "300">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone">聯絡電話 <span class="text-muted"></span></label>
+                <input type="text" class="form-control" id="phone" placeholder="XXXX-XXXXXX" maxlength = "11">
+            </div>
+
+            <div class="mb-3">
+                <label for="area">案件地址</label>
+                <input type="text" class="form-control" id="area" required maxlength = "30">
+            </div>
+            
+            <div class="mb-3">
+                <label for="case_time">案件時間 </label>
+                <input type="text" class="form-control" id="case_time" placeholder="ex:10" required maxlength = "30">
+            </div>
+            
+            <div class="mb-3">
+                <label for="end_time">案件結束時間</label>
+                <input type="datetime-local" class="form-control" id="end_time" min="" required maxlength = "30">
+            </div>
+            <hr class="mb-4">
+            
             <div class="col-md-6 mb-3">
-                <label for="Title">案件標題</label>
-                <input type="text" class="form-control" id="Title" placeholder="" value="" required maxlength = "50">
-                <div class="invalid-feedback">
-                    此欄位必填
-                </div>
+                <label for="pay">酬勞</label>
+                <input type="text" class="form-control" id="pay" placeholder="" value="" required maxlength = "50">
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="Content">案件內容</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="Content" placeholder="" required maxlength = "300">
-                <div class="invalid-feedback" style="width: 100%;">
-                此欄位必填
-                </div>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="username">案件客戶名</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="username" placeholder="Username" required maxlength = "20">
-                <div class="invalid-feedback" style="width: 100%;">
-                    此欄位必填
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="phone">聯絡電話 <span class="text-muted">(Optional)</span></label>
-            <input type="text" class="form-control" id="phone" placeholder="XXXX-XXXXXX" maxlength = "11">
-        </div>
-
-        <div class="mb-3">
-            <label for="address">案件地址</label>
-            <input type="text" class="form-control" id="address" required maxlength = "30">
-            <div class="invalid-feedback">
-                此欄位必填
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <label for="TimeLimited">案件時間 <span class="text-muted">(單位：分鐘)</span></label>
-            <input type="number" class="form-control" id="TimeLimited" placeholder="ex:10" required maxlength = "30">
-            <div class="invalid-feedback">
-                此欄位必填
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <label for="DeleteTime">案件下架時間</label>
-            <input type="datetime-local" class="form-control" oninput="OnInput (event)" id="DeleteTime" min="" required maxlength = "30">
-            <div class="invalid-feedback">
-                此欄位有誤
-            </div>
-        </div>
-        <hr class="mb-4">
-        <h4 class="mb-3">酬勞</h4>
-        <div class="col-md-6 mb-3">
-            <input type="text" class="form-control" id="reward" placeholder="" value="" required maxlength = "50">
-            <div class="invalid-feedback">
-                此欄位必填
-            </div>
-        </div>
-        
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" id = "submit" type="submit" >提交案件</button>
+            
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" id = "submit" type="button" >提交案件</button>
         </form>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.js"></script></body>
         
 </html>

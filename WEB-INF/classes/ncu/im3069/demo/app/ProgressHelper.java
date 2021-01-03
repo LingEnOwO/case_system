@@ -294,24 +294,22 @@ public class ProgressHelper {
         long start = System.nanoTime();
         /** 紀錄SQL總行數 */
         int row = 0;
-        
+        int status = 0;
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `case_system`.`progress`(`case_id`, `requester_id`, `applicant_id`)"
-                    + " VALUES(?, ?, ?)";
+            String sql = "INSERT INTO `case_system`.`progress`(`case_id`, `requester_id`)"
+                    + " VALUES(?, ?)";
             
             /** 取得所需之參數 */
             int case_id = p.getCaseId();
             int requester_id = p.getRequesterId();
-            int applicant_id = p.getApplicantId();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setInt(1, case_id);
             pres.setInt(2, requester_id);
-            pres.setInt(3, applicant_id);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -323,6 +321,7 @@ public class ProgressHelper {
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
             System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+            status = 400;
         } catch (Exception e) {
             /** 若錯誤則印出錯誤訊息 */
             e.printStackTrace();
@@ -341,6 +340,7 @@ public class ProgressHelper {
         response.put("sql", exexcute_sql);
         response.put("time", duration);
         response.put("row", row);
+        response.put("status", status);
 
         return response;
     }

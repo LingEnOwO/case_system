@@ -1,7 +1,6 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 
 import org.json.*;
 
@@ -67,12 +66,12 @@ public class CaseHelper {
                 /** 將 ResultSet 之資料取出 */
                 int case_id = rs.getInt("id");
                 int requester_id = rs.getInt("requester_id");
-                String phone = rs.getString("phone");
+                String phone = rs.getString("title");
                 String title = rs.getString("phone");
                 String content = rs.getString("content");
                 String area = rs.getString("area");
                 String case_time = rs.getString("case_time");
-                java.util.Date end_time = rs.getDate("end_time");
+                String end_time = rs.getString("end_time");
                 String pay = rs.getString("pay");
                 
                 /** 將每一筆案件資料產生一名新Case物件 */
@@ -125,7 +124,7 @@ public class CaseHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `case_system`.`cases` WHERE `cases`.`id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `case_system`.`cases` WHERE `cases`.`id` = ?";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -147,7 +146,7 @@ public class CaseHelper {
                 String content = rs.getString("content");
                 String area = rs.getString("area");
                 String case_time = rs.getString("case_time");
-                java.util.Date end_time = rs.getDate("end_time");
+                String end_time = rs.getString("end_time");
                 String pay = rs.getString("pay");
                 
                 /** 將每一筆商品資料產生一名新Case物件 */
@@ -200,7 +199,7 @@ public class CaseHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `case_system`.`cases` WHERE `cases`.`requester_id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `case_system`.`cases` WHERE `cases`.`requester_id` = ?";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -214,6 +213,9 @@ public class CaseHelper {
             
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             while(rs.next()) {
+                /** 每執行一次迴圈表示有一筆資料 */
+                row += 1;
+                
                 /** 將 ResultSet 之資料取出 */
                 int case_id = rs.getInt("id");
                 int requester_id = rs.getInt("requester_id");
@@ -222,7 +224,7 @@ public class CaseHelper {
                 String content = rs.getString("content");
                 String area = rs.getString("area");
                 String case_time = rs.getString("case_time");
-                java.util.Date end_time = rs.getDate("end_time");
+                String end_time = rs.getString("end_time");
                 String pay = rs.getString("pay");
                 
                 /** 將每一筆商品資料產生一名新Case物件 */
@@ -285,11 +287,8 @@ public class CaseHelper {
             String content = c.getContent();
             String area = c.getArea();
             String case_time = c.getCaseTime();
-            java.util.Date end_time = c.getEndTime();
+            String end_time = c.getEndTime();
             String pay = c.getPay();
-
-            /** 轉成sql的格式 */
-            SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -299,7 +298,7 @@ public class CaseHelper {
             pres.setString(4, content);
             pres.setString(5, area);
             pres.setString(6, case_time);
-            pres.setString(7, sdFormat.format(end_time));
+            pres.setString(7, end_time);
             pres.setString(8, pay);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
@@ -334,6 +333,68 @@ public class CaseHelper {
         return response;
     }
 
+    public int getCaseId(int requester_id, String end_time){
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        /** 用於儲存所有檢索回之案件，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        int case_id = 6;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT `id` FROM `case_system`.`cases` WHERE `cases`.`requester_id` = ? AND `cases`.`end_time` = ?";
+            
+            /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, requester_id);
+            pres.setString(2, end_time);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            while(rs.next()) {
+                /** 將 ResultSet 之資料取出 */
+                case_id = rs.getInt("id");
+                System.out.println(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end - start);
+
+        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return case_id;
+    }
 
     //刪除案件
     public JSONObject deleteById(int id) {
@@ -351,7 +412,7 @@ public class CaseHelper {
             conn = DBMgr.getConnection();
             
             /** SQL指令 */
-            String sql = "DELETE FROM `case_system`.`cases` WHERE `id` = ? LIMIT 1";
+            String sql = "DELETE FROM `case_system`.`cases` WHERE `id` = ?";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -415,12 +476,9 @@ public class CaseHelper {
             String content = c.getContent();
             String area = c.getArea();
             String case_time = c.getCaseTime();
-            java.util.Date end_time = c.getEndTime();
+            String end_time = c.getEndTime();
             String pay = c.getPay();
             int id = c.getCaseId();
-            
-            /** 轉成sql的格式 */
-            SimpleDateFormat sdFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -429,7 +487,7 @@ public class CaseHelper {
             pres.setString(3, content);
             pres.setString(4, area);
             pres.setString(5, case_time);
-            pres.setString(6, sdFormat.format(end_time));
+            pres.setString(6, end_time);
             pres.setString(7, pay);
             pres.setInt(8, id);
 
