@@ -26,7 +26,7 @@ $(document).ready(function() {
             // 將JSON格式轉換成字串
             var data_string = JSON.stringify(data_object);
             console.log(data_string);
-            // 發出POST的AJAX請求
+            // 發出PUT的AJAX請求
             $.ajax({
                 type: "PUT",
                 url: "api/comment.do",
@@ -37,11 +37,13 @@ $(document).ready(function() {
                 timeout: 5000,
                 //成功會進入案件瀏覽網頁或顯示錯誤訊息
                 success: function (response) {
-                  if(response.status == 200) {
-                      alert('提交成功!');
-                      //window.location.assign("SA_All_Case.html");
-                      console.log(response);
-                    }               
+                    if(response.status == 200) {
+                        console.log(response);
+                        alert('提交成功!');
+                        window.location.assign("SA_All_Case.html");
+                    }else{
+                        alert('該案件尚未有人接，所以無法評價');
+                    }           
                 },
                 error: function () {
                     alert("無法連線到伺服器！");

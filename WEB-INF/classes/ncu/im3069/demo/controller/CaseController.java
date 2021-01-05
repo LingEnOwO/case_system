@@ -32,21 +32,28 @@ public class CaseController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
 
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        int requester_id = jsq.getInt("id");
+        int requester_id = jsq.getInt("requester_id");
+        int applicant_id = jsq.getInt("applicant_id");
         int case_id = jsq.getInt("case_id");
 
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回該案件之資料，否則代表要取回全部資料庫內案件之資料 */
         if (requester_id != 0) {
-            JSONObject query = ch.getByRequesterId(requester_id);
+            JSONObject query = ch.getByRequesterIdAndProgress(requester_id);
             resp.put("status", "200");
             resp.put("message", "該案主案件資料取得成功");
             resp.put("response", query);
         }
-        if (case_id != 0) {
+        else if (applicant_id != 0) {
+            JSONObject query = ch.getByApplicantIdAndProgress(applicant_id);
+            resp.put("status", "200");
+            resp.put("message", "該接案者資料取得成功");
+            resp.put("response", query);
+        }
+        else if (case_id != 0) {
             JSONObject query = ch.getById(case_id);
             resp.put("status", "200");
-            resp.put("message", "該案主案件資料取得成功");
+            resp.put("message", "該案件資料取得成功");
             resp.put("response", query);
         }
         else {

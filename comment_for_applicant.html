@@ -23,35 +23,36 @@
     <div class="container">
   <div class="py-5 text-center">
     <h2>評價系統</h2>
-    <p class="lead">請留下您對發案者的評價，幫助大家變得更好</p>
+    <p class="lead">請留下您對案主的評價，幫助大家變得更好</p>
   </div>
     <div class="col-md-8 order-md-1">
-      <h4 class="mb-3">評價</h4>
-      <form class="comment" >
-
+    <h4 class="mb-3">評價</h4>
+    <form>
         <div class="mb-3">
-          <label >留言</label>
-          <input type="text" class="form-control" id="comment" placeholder="你的留言">
+            <label >留言</label>
+            <input type="text" class="form-control" id="comment" placeholder="你的留言">
         </div>
         <div class="row">
-          <div class="col-md-5 mb-3">
-            <label for="country">您的給分</label>
-            <select class="custom-select d-block w-100" id="select" required>
-              <option value="">給分</option>
-              <option value= 1>1分</option>
-              <option value= 2>2分</option>
-              <option value= 3>3分</option>
-              <option value= 4>4分</option>
-              <option value= 5>5分</option>
-            </select>
-            <div class="invalid-feedback">
-              選取有效的評價分數
+            <div class="col-md-5 mb-3">
+                <label for="country">您的給分</label>
+                <select class="custom-select d-block w-100" id="select" required>
+                    <option value="">給分</option>
+                    <option value= 1>1分</option>
+                    <option value= 2>2分</option>
+                    <option value= 3>3分</option>
+                    <option value= 4>4分</option>
+                    <option value= 5>5分</option>
+                </select>
+                <div class="invalid-feedback">
+                選取有效的評價分數
+                </div>
             </div>
-          </div>
         </div>
-          </div>
+            </div>    
         </div>
-        <button class="btn btn-primary btn-lg btn-block" id="submit" type="button">送出評價</button>
+        <div class="container">
+            <button class="btn btn-primary btn-lg btn-block" id="submit" type="button">送出評價</button>
+        </div>
       </form>
     </div>
   </div>

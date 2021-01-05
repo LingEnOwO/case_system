@@ -9,6 +9,9 @@ public class Case {
     /** requester_id，案主編號 */
     private int requester_id;
 
+    /** applicant_id，案主編號 */
+    private int applicant_id;
+
     /** phone，案主電話 */
     private String phone;
 
@@ -30,11 +33,20 @@ public class Case {
     /** pay，案件報酬 */
     private String pay;
 
+    /** finished，案件完成 */
+    private int finished;
+
+    /** finished_time，案件完成時間 */
+    private String finished_time = "0";
+
+    /** finished_time，案件接受時間 */
+    private String applicated_time = "0";
+
     /**
      * 實例化（Instantiates）一個新的（new）Case 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增案件時
      *
-     * @param case_id 產品編號
+     * @param case_id 案件編號
      */
 	public Case(int case_id) {
 		this.case_id = case_id;
@@ -42,7 +54,7 @@ public class Case {
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增案件時
      *
      * @param requester_id 
      * @param title 
@@ -57,7 +69,7 @@ public class Case {
 
       /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增案件時
      *
      * @param requester_id 
      * @param phone
@@ -82,7 +94,7 @@ public class Case {
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 採用多載（overload）方法進行，此建構子用於新增案件時
      *
      * @param case_id
      * @param requester_id 
@@ -107,6 +119,24 @@ public class Case {
 	}
     
     /**
+     * 實例化（Instantiates）一個新的（new）Product 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增案件時
+     *
+     * @param case_id
+     * @param requester_id 
+     * @param applicant_id
+     * @param finished_time
+     * @param applicated_time
+     */
+	public Case(int case_id, int requester_id, int applicant_id,String applicated_time, String finished_time) {
+        this.case_id = case_id;
+        this.requester_id = requester_id;
+        this.applicant_id = applicant_id;
+        this.applicated_time = applicated_time;
+        this.finished_time = finished_time;
+    }
+    
+    /**
      * 取得案件編號
      *
      * @return
@@ -122,6 +152,15 @@ public class Case {
      */
 	public int getRequesterId() {
 		return this.requester_id;
+    }
+
+    /**
+     * 取得接案者編號
+     *
+     * @return
+     */
+	public int getApplicantId() {
+		return this.applicant_id;
     }
 
     /**
@@ -188,7 +227,34 @@ public class Case {
     }
 
     /**
-     * 取得產品資訊
+     * 取得案件完成
+     *
+     * @return
+     */
+	public int getFinished() {
+		return this.finished;
+    }
+
+    /**
+     * 取得案件完成時間
+     *
+     * @return
+     */
+	public String getFinishedTime() {
+		return this.finished_time;
+    }
+
+    /**
+     * 取得案件接受時間
+     *
+     * @return
+     */
+	public String getApplicatedTime() {
+		return this.applicated_time;
+    }
+
+    /**
+     * 取得案件資訊
      *
      * @return JSONObject 回傳案件資訊
      */
@@ -197,6 +263,7 @@ public class Case {
         JSONObject jso = new JSONObject();
         jso.put("case_id", getCaseId());
         jso.put("requester_id", getRequesterId());
+        jso.put("applicant_id", getApplicantId());
         jso.put("phone", getPhone());
         jso.put("title", getTitle());
         jso.put("content", getContent());
@@ -204,6 +271,9 @@ public class Case {
         jso.put("case_time", getCaseTime());
         jso.put("end_time", getEndTime());
         jso.put("pay", getPay());
+        jso.put("finished", getFinished());
+        jso.put("finished_time", getFinishedTime());
+        jso.put("applicated_time", getApplicatedTime());
 
         return jso;
     }

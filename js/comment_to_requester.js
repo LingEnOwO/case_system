@@ -25,7 +25,9 @@ $(document).ready(function(){
         	if(response.status == 200){
            		document.getElementById('requester_comment').value = response['response']['data'][0]['requester_comment'];
            		document.getElementById('requester_evaluation').value = response['response']['data'][0]['requester_evaluation'];
-        	}
+        	}else{
+                alert("ERROR");
+            }
         },
         error: function () {
             alert("無法連線到伺服器！");

@@ -7,7 +7,8 @@ $(document).ready(function() {
     console.log(getCookie('userID'));
 
     var data_object = {
-        'id': 0,
+        'requester_id': 0,
+        'applicant_id': 0,
         'case_id': 0,
     };
 

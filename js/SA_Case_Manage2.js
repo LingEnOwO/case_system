@@ -5,15 +5,17 @@ $(document).ready(function() {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    console.log(getCookie('userID'));
+
     var data_object = {
-        'id': getCookie('userID'),
+        'requester_id': getCookie('userID'),
+        'applicant_id': 0,
         'case_id': 0,
     };
 
     // 將JSON格式轉換成字串
     var data_string = JSON.stringify(data_object);
-
-    console.log(getCookie('userID'));
+    console.log(data_string);
     getCaseByID();
 
     function getCaseByID() {
@@ -45,9 +47,9 @@ $(document).ready(function() {
         $.each(data, function(index, value) {
             table_html +='<tr><td scope="row">' + value['case_id'] +'</td>';
             table_html +='<td>' + value['requester_id'] +'</td>';
-            table_html +='<td>' + value['content'] +'</td>';
-            table_html +='<td>' + value['end_time'] +'</td>';
-            table_html +='<td>' + value['content'] +'</td>';
+            table_html +='<td>' + value['applicant_id'] +'</td>';
+            table_html +='<td>' + value['applicated_time'] +'</td>';
+            table_html +='<td>' + value['finished_time'] +'</td>';
             
             table_html +='<td>' + '<a id=edit href="SA_Case_Edit.html?caseID=' + value['case_id'] + '">編輯</a>';
             table_html +='<a id=delete href="javascript:deleteCase(' + value['case_id'] + ');">刪除</a></td>';

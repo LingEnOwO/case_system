@@ -129,10 +129,10 @@ public class ProgressController extends HttpServlet {
         
         
         /** 取出經解析到JSONObject之Request參數 */
-        int applicant_id = jso.getInt("applicant_id");
+        int case_id = jso.getInt("case_id");
         
         /** 透過CaseHelper物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
-        JSONObject data = ph.updateProgressFinished(applicant_id);
+        JSONObject data = ph.updateProgressFinished(case_id);
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();

@@ -20,7 +20,8 @@ $(document).ready(function() {
     var case_id = url.searchParams.get("caseID");
 
     var data_object = {
-        'id': 0,
+        'requester_id': 0,
+        'applicant_id': 0,
         'case_id': case_id,
     };
     // 將JSON格式轉換成字串
