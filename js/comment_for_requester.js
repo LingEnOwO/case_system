@@ -1,9 +1,9 @@
-// 取得網址參數
-var url_string = window.location.href;
-var url = new URL(url_string);
-var case_id = url.searchParams.get("case_id");
 $(document).ready(function() {
-// 處理表單點擊事件
+    // 取得網址參數
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var case_id = url.searchParams.get("caseID");
+    // 處理表單點擊事件
     var $form = $('#submit');
     $form.click(function() {
     submit();
@@ -17,15 +17,18 @@ $(document).ready(function() {
         else {
                 var data_object = {
                 "case_id": case_id,
+                "requester_evaluation": "0",
+                "requester_comment": "",
                 "applicant_evaluation": applicant_evaluation,
                 "applicant_comment": applicant_comment
             };
 
             // 將JSON格式轉換成字串
             var data_string = JSON.stringify(data_object);
+            console.log(data_string);
             // 發出POST的AJAX請求
             $.ajax({
-                type: "POST",
+                type: "PUT",
                 url: "api/comment.do",
                 data: data_string,
                 crossDomain: true,
@@ -35,8 +38,9 @@ $(document).ready(function() {
                 //成功會進入案件瀏覽網頁或顯示錯誤訊息
                 success: function (response) {
                   if(response.status == 200) {
-                      alart('提交成功!');
-                      window.location.assign("SA_All_Case.html");
+                      alert('提交成功!');
+                      //window.location.assign("SA_All_Case.html");
+                      console.log(response);
                     }               
                 },
                 error: function () {

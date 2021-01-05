@@ -90,7 +90,7 @@ public class Case {
      * @param title 
      * @param content
      * @param area
-     * @param start_time
+     * @param case_time
      * @param end_time
      * @param pay
      */

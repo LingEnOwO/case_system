@@ -67,8 +67,8 @@ public class CommentHelper {
                 int case_id = rs.getInt("case_id");
                 int requester_id = rs.getInt("requester_id");
                 int applicant_id = rs.getInt("applicant_id");
-                int requester_evaluation = rs.getInt("requester_evaluation");
-                int applicant_evaluation = rs.getInt("applicant_evaluation");
+                String requester_evaluation = rs.getString("requester_evaluation");
+                String applicant_evaluation = rs.getString("applicant_evaluation");
                 String requester_comment = rs.getString("requester_comment");
                 String applicant_comment = rs.getString("applicant_comment");
                 
@@ -136,8 +136,8 @@ public class CommentHelper {
                 int case_id = rs.getInt("case_id");
                 int requester_id = rs.getInt("requester_id");
                 int applicant_id = rs.getInt("applicant_id");
-                int requester_evaluation = rs.getInt("requester_evaluation");
-                int applicant_evaluation = rs.getInt("applicant_evaluation");
+                String requester_evaluation = rs.getString("requester_evaluation");
+                String applicant_evaluation = rs.getString("applicant_evaluation");
                 String requester_comment = rs.getString("requester_comment");
                 String applicant_comment = rs.getString("applicant_comment");
                 
@@ -198,8 +198,8 @@ public class CommentHelper {
                 int case_id = rs.getInt("case_id");
                 int requester_id = rs.getInt("requester_id");
                 int applicant_id = rs.getInt("applicant_id");
-                int requester_evaluation = rs.getInt("requester_evaluation");
-                int applicant_evaluation = rs.getInt("applicant_evaluation");
+                String requester_evaluation = rs.getString("requester_evaluation");
+                String applicant_evaluation = rs.getString("applicant_evaluation");
                 String requester_comment = rs.getString("requester_comment");
                 String applicant_comment = rs.getString("applicant_comment");
                 
@@ -260,8 +260,8 @@ public class CommentHelper {
                 int case_id = rs.getInt("case_id");
                 int requester_id = rs.getInt("requester_id");
                 int applicant_id = rs.getInt("applicant_id");
-                int requester_evaluation = rs.getInt("requester_evaluation");
-                int applicant_evaluation = rs.getInt("applicant_evaluation");
+                String requester_evaluation = rs.getString("requester_evaluation");
+                String applicant_evaluation = rs.getString("applicant_evaluation");
                 String requester_comment = rs.getString("requester_comment");
                 String applicant_comment = rs.getString("applicant_comment");
                 
@@ -308,7 +308,7 @@ public class CommentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `case_system`.`cases`(`case_id`, `requester_id`, `applicant_id`)"
+            String sql = "INSERT INTO `case_system`.`comments`(`case_id`, `requester_id`, `applicant_id`)"
                     + " VALUES(?, ?, ?)";
             
             /** 取得所需之參數 */
@@ -382,7 +382,7 @@ public class CommentHelper {
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setInt(1, requester_evaluation);
+            pres.setString(1, Integer.toString(requester_evaluation));
             pres.setString(2, requester_comment);
             pres.setInt(3, case_id);
 
@@ -447,7 +447,7 @@ public class CommentHelper {
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setInt(1, applicant_evaluation);
+            pres.setString(1, Integer.toString(applicant_evaluation));
             pres.setString(2, applicant_comment);
             pres.setInt(3, case_id);
 

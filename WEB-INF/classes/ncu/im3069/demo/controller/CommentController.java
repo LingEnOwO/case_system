@@ -79,28 +79,28 @@ public class CommentController extends HttpServlet {
         JSONObject jsq = new JSONObject(queryString);
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        int requester_id = Integer.parseInt(jsq.getString("requester_id"));
-        int applicant_id = Integer.parseInt(jsq.getString("applicant_id"));
-        int case_id = Integer.parseInt(jsq.getString("case_id"));
+        int requester_id = jsq.getInt("requester_id");
+        int applicant_id = jsq.getInt("applicant_id");
+        int case_id = jsq.getInt("case_id");
 
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回該案件之資料，否則代表要取回全部資料庫內案件之資料 */
-        if (!jsq.getString("requester_id").isEmpty()) {
+        if (requester_id != 0) {
             JSONObject query = ch.getByRequesterId(requester_id);
             resp.put("status", "200");
             resp.put("message", "該案主案件評價資料取得成功");
             resp.put("response", query);
         }
-        else if(!jsq.getString("applicant_id").isEmpty()){
-            JSONObject query = ch.getByRequesterId(applicant_id);
+        else if(applicant_id != 0){
+            JSONObject query = ch.getByApplicantId(applicant_id);
             resp.put("status", "200");
             resp.put("message", "該接案者案件評價資料取得成功");
             resp.put("response", query);
         }
-        else if(!jsq.getString("case_id").isEmpty()){
+        else if(case_id != 0){
             JSONObject query = ch.getByCaseId(case_id);
             resp.put("status", "200");
-            resp.put("message", "該接案者案件評價資料取得成功");
+            resp.put("message", "該案件評價資料取得成功");
             resp.put("response", query);
         }
 
@@ -160,7 +160,7 @@ public class CommentController extends HttpServlet {
             /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
             JSONObject query = ch.updateRequesterComment(c);
             resp.put("status", "200");
-            resp.put("message", "該案主案件進度資料取得成功");
+            resp.put("message", "該案主評價更新成功");
             resp.put("response", query);
         }
         else if(!applicant_comment.isEmpty()){
@@ -168,7 +168,7 @@ public class CommentController extends HttpServlet {
             /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
             JSONObject query = ch.updateApplicantComment(c);
             resp.put("status", "200");
-            resp.put("message", "該接案者案件進度資料取得成功");
+            resp.put("message", "該接案者評價更新成功");
             resp.put("response", query);
         }        
         

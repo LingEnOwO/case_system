@@ -19,10 +19,10 @@ public class Comment {
     private String comment;
 
     /** requester_evaluation，案主評價 */
-    private int requester_evaluation;
+    private String requester_evaluation;
 
     /** applicant_evaluation，接案者評價 */
-    private int applicant_evaluation;
+    private String applicant_evaluation;
 
     /** requester_comment，案主評論 */
     private String requester_comment;
@@ -64,7 +64,7 @@ public class Comment {
      * @param applicant_evaluation
      * @param requester_evaluation
      */
-	public Comment(int case_id, int requester_id, int applicant_id, int applicant_evaluation, int requester_evaluation) {
+	public Comment(int case_id, int requester_id, int applicant_id, String applicant_evaluation, String requester_evaluation) {
         this.case_id = case_id;
         this.requester_id = requester_id;
         this.applicant_id = applicant_id;
@@ -86,12 +86,12 @@ public class Comment {
      * @param finished
      * @param finished_time
      */
-	public Comment(int case_id, int requester_id, int applicant_id, int applicant_evaluation, int requester_evaluation,String applicant_comment,String requester_comment) {
+	public Comment(int case_id, int requester_id, int applicant_id, String requester_evaluation, String applicant_evaluation, String requester_comment ,String applicant_comment) {
         this.case_id = case_id;
-        this.requester_id = requester_id;
         this.applicant_id = applicant_id;
-        this.applicant_evaluation = applicant_evaluation;
+        this.requester_id = requester_id;
         this.requester_evaluation = requester_evaluation;
+        this.applicant_evaluation = applicant_evaluation;
         this.applicant_comment = applicant_comment;
         this.requester_comment = requester_comment;
     }
@@ -142,7 +142,7 @@ public class Comment {
      *
      * @return
      */
-	public int getRequesterEvaluation() {
+	public String getRequesterEvaluation() {
 		return this.requester_evaluation;
     }
 
@@ -151,7 +151,7 @@ public class Comment {
      *
      * @return
      */
-	public int getApplicantEvaluation() {
+	public String getApplicantEvaluation() {
 		return this.applicant_evaluation;
     }
 

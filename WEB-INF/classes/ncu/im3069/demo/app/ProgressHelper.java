@@ -299,17 +299,19 @@ public class ProgressHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `case_system`.`progress`(`case_id`, `requester_id`)"
-                    + " VALUES(?, ?)";
+            String sql = "INSERT INTO `case_system`.`progress`(`case_id`, `requester_id`, `applicant_id`)"
+                    + " VALUES(?, ?, ?)";
             
             /** 取得所需之參數 */
             int case_id = p.getCaseId();
             int requester_id = p.getRequesterId();
+            int applicant_id = p.getApplicantId();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setInt(1, case_id);
             pres.setInt(2, requester_id);
+            pres.setInt(3, applicant_id);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();

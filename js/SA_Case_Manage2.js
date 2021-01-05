@@ -36,37 +36,7 @@ $(document).ready(function() {
                 alert("無法連線到伺服器！");
             }
         });
-    }
-
-    function deleteCase(id) {
-        var check = window.confirm("確認刪除案件？");
-        if (check == true) {
-            console.log("已確認刪除!");
-            var request = {'case_id': id};
-            var data_string = JSON.stringify(request);
-            $.ajax({
-                type: "DELETE",
-                url: "api/progress.do",
-                crossDomain: true,
-                data: data_string,
-                cache: false,
-                dataType: 'json',
-                timeout: 5000,
-                success: function (response) {
-                    if(response.status == 200){
-                        getCaseByID();
-                    }
-                    console.log(response);
-                },
-                error: function () {
-                    alert("無法連線到伺服器！");
-                }
-            });
-        }
-        else {
-            console.log("已取消!");
-        }
-    }
+    }  
 
     // 更新案件列表表格
     function updateTable(data) {
@@ -79,8 +49,8 @@ $(document).ready(function() {
             table_html +='<td>' + value['end_time'] +'</td>';
             table_html +='<td>' + value['content'] +'</td>';
             
-            table_html +='<td>' + '<a id=edit href="SA_Edit.html?caseID=' + value['case_id'] + '">編輯</a>';
-            table_html +='<a id=delete href="javascript: deleteCase(' + value['case_id'] + ');">刪除</a></td>';
+            table_html +='<td>' + '<a id=edit href="SA_Case_Edit.html?caseID=' + value['case_id'] + '">編輯</a>';
+            table_html +='<a id=delete href="javascript:deleteCase(' + value['case_id'] + ');">刪除</a></td>';
 
             table_html +='<td>' + '<a href="comment_for_requester.html?caseID=' + value['case_id'] + '">評價</a> ';
             table_html +='<td>' + '<a href="comment_to_requester.html?caseID=' + value['case_id'] + '">查看評價</a> ';
@@ -90,3 +60,53 @@ $(document).ready(function() {
         $("#table > tbody").append(table_html);
     }
 });
+
+function deleteCase(id) {
+    var check = window.confirm("確認刪除案件？");
+    if (check == true) {
+        console.log("已確認刪除!");
+        var request = {'case_id': id};
+        var data_string = JSON.stringify(request);
+        $.ajax({
+            type: "DELETE",
+            url: "api/progress.do",
+            crossDomain: true,
+            data: data_string,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if(response.status == 200){
+                    console.log(response);
+                }
+                console.log(response);
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+        $.ajax({
+            type: "DELETE",
+            url: "api/case.do",
+            crossDomain: true,
+            data: data_string,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if(response.status == 200){
+                    alert("成功刪除");
+                    window.location.reload();
+                    console.log(response);
+                }
+                console.log(response);
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+    else {
+        console.log("已取消!");
+    }
+}

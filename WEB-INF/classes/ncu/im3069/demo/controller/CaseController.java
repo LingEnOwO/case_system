@@ -10,8 +10,6 @@ import org.json.*;
 
 import ncu.im3069.demo.app.Case;
 import ncu.im3069.demo.app.CaseHelper;
-import ncu.im3069.demo.app.Progress;
-import ncu.im3069.demo.app.ProgressHelper;
 import ncu.im3069.tools.JsonReader;
 
 
@@ -20,7 +18,6 @@ public class CaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     private CaseHelper ch =  CaseHelper.getHelper();
-    private ProgressHelper ph =  ProgressHelper.getHelper();
 
     public CaseController() {
         super();
@@ -116,7 +113,7 @@ public class CaseController extends HttpServlet {
         JSONObject jso = jsr.getObject();
         
         /** 取出經解析到JSONObject之Request參數 */
-        int id = jso.getInt("id");
+        int id = jso.getInt("case_id");
         
         /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
         JSONObject query = ch.deleteById(id);
@@ -147,6 +144,7 @@ public class CaseController extends HttpServlet {
         JSONObject jso = jsr.getObject();
         
         /** 取出經解析到JSONObject之Request參數 */
+        int case_id = jso.getInt("case_id");
         int requester_id = jso.getInt("requester_id");
         String phone = jso.getString("phone");
         String title = jso.getString("title");
@@ -157,7 +155,7 @@ public class CaseController extends HttpServlet {
         String pay = jso.getString("pay");
 
         /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-        Case c = new Case(requester_id, phone, title, content, area, case_time, end_time, pay);
+        Case c = new Case(case_id, requester_id, phone, title, content, area, case_time, end_time, pay);
         
         /** 透過CaseHelper物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
         JSONObject data = ch.update(c);
