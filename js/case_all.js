@@ -45,7 +45,7 @@ $(document).ready(function() {
             table_html +='<td>' + value['content'] +'</td>';
             table_html +='<td>' + value['area'] +'</td>';
             table_html +='<td>' + value['pay'] +'</td>';
-            table_html +='<td>' + '<a href="SA_Detail.html?caseID=' + value['case_id'] + '">查看詳細</a> ';
+            table_html +='<td>' + '<a href="case_detail.html?caseID=' + value['case_id'] + '">查看詳細</a> ';
             table_html +='</td></tr>'
         })
         $("#table > tbody").append(table_html);

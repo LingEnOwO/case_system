@@ -40,7 +40,7 @@ $(document).ready(function() {
                     if(response.status == 200) {
                         console.log(response);
                         alert('提交成功!');
-                        window.location.assign("SA_All_Case.html");
+                        window.location.assign("case_all.html");
                     }else{
                         alert('該案件尚未有人接，所以無法評價');
                     }           

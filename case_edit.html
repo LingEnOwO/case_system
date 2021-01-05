@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="js/case_edit.js"></script>
+    <meta charset="utf-8">
+    <title>案件更新</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
+    <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    
+    <div id="container">  
+        <div id="content">
+            <div class="py-5 text-center">
+            <h2>更新案件資料</h2>
+            </div>
+            
+            <div class="col-md-8 order-md-1 container align-content-center" style="margin-bottom: 50px;">
+                <form id="form" accept-charset="utf-8">
+                
+                    <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+    
+                    <div class="mb-3">
+                        <label for="Title">案件標題</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="Title" placeholder="" value="" required maxlength = "50">
+                            <div class="invalid-feedback">
+                                此欄位必填
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="Content">案件內容</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="Content" placeholder="" required maxlength = "300">
+                            <div class="invalid-feedback" style="width: 100%;">
+                            此欄位必填
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="username">案主編號</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="username" placeholder="" required maxlength = "20" disabled>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                此欄位必填
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="phone">聯絡電話</label>
+                        <input type="text" class="form-control" id="phone" placeholder="" maxlength = "11">
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="address">案件地址</label>
+                        <input type="text" class="form-control" id="address" required maxlength = "30">
+                        <div class="invalid-feedback">
+                            此欄位必填
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">案件時間</label>
+                        <input type="text" class="form-control" id="case_time" required maxlength = "30">
+                        <div class="invalid-feedback">
+                            此欄位必填
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">結束時間</label>
+                        <input type="text" class="form-control" id="end_time" required maxlength = "30">
+                        <div class="invalid-feedback">
+                            此欄位必填
+                        </div>
+                    </div>
+                    
+                    <hr class="mb-4">
+
+                    <h4 class="mb-3">酬勞</h4>
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" id="reward" placeholder="" value="" required maxlength = "50">
+                        <div class="invalid-feedback">
+                            此欄位必填
+                        </div>
+                    </div>
+    
+                    <hr class="mb-4">
+
+                    <div><input class="btn btn-primary btn-lg btn-block" type="button" value="更新" id="submit"></div>
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+
+</body>
+
+</html>

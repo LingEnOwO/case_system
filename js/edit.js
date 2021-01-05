@@ -47,7 +47,7 @@ $(document).ready(function() {
                     success: function (response) {
                         if(response.status == 200){
                             alert('修改成功!');
-                            window.location.assign("SA_All_Case.html");
+                            window.location.assign("case_all.html");
                         }
                     },
                     error: function () {

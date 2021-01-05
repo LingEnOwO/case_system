@@ -7,7 +7,8 @@ $(document).ready(function() {
     var case_id = url.searchParams.get("caseID");
 
     var data_object = {
-        'id': 0,
+        'requester_id': 0,
+        'applicant_id': 0,
         'case_id': case_id,
     };
     // 將JSON格式轉換成字串
@@ -85,11 +86,10 @@ $(document).ready(function() {
                 cache: false,
                 dataType: 'json',
                 timeout: 5000,
-                success: function (response) {
-                                            
+                success: function (response) {            
                     if(response.status == 200){
                         alert("更新成功");
-                        window.location.reload();
+                        window.location.assign("case_all.html");
                     }
                 },
                 error: function () {

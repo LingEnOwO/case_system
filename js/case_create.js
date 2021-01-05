@@ -4,18 +4,6 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// function OnInput (event) {
-//     document.getElementById("submit").disabled = false;
-// } 
-
-// function load(){
-//     var ele = document.getElementsByTagName("div")[0];
-//     var content = ele.innerHTML;
-//     console.log(content);
-// }
-
-// window.onload = load;
-
 $(document).ready(function() {
     // 處理表單點擊事件
     var $form = $('#submit');    
@@ -90,7 +78,7 @@ $(document).ready(function() {
                 if(response.status == 200){
                     alert('新增成功!');
                     console.log(response);
-                    window.location.assign("SA_Case_Manage2.html");
+                    window.location.assign("created_case.html");
                 }
                 else if(response.status == 400 ) {
                     console.log(response);

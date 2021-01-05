@@ -8,8 +8,8 @@ $(document).ready(function() {
     console.log(getCookie('userID'));
 
     var data_object = {
-        'requester_id': 0,
-        'applicant_id': getCookie('userID'),
+        'requester_id': getCookie('userID'),
+        'applicant_id': 0,
         'case_id': 0,
     };
 
@@ -19,7 +19,7 @@ $(document).ready(function() {
     getCaseByID();
 
     function getCaseByID() {
-        // 發出GET請求取得所有該會員接受的案件列表
+        // 發出GET請求取得所有該會員的案件列表
         $.ajax({
             type: "GET",
             url: "api/case.do",
@@ -47,12 +47,15 @@ $(document).ready(function() {
         $.each(data, function(index, value) {
             table_html +='<tr><td scope="row">' + value['case_id'] +'</td>';
             table_html +='<td>' + value['requester_id'] +'</td>';
+            table_html +='<td>' + value['applicant_id'] +'</td>';
             table_html +='<td>' + value['applicated_time'] +'</td>';
             table_html +='<td>' + value['finished_time'] +'</td>';
+            
+            table_html +='<td>' + '<a id=edit href="case_edit.html?caseID=' + value['case_id'] + '">編輯</a>|';
+            table_html +='<a id=delete href="javascript:deleteCase(' + value['case_id'] + ');">刪除</a></td>';
 
-            table_html +='<td>' + '<a href="SA_Case_Detail.html?caseID=' + value['case_id'] + '">檢視任務</a> ';
-            table_html +='<td>' + '<a href="comment_for_applicant.html?caseID=' + value['case_id'] + '">評價</a> ';
-            table_html +='<td>' + '<a href="comment_to_applicant.html?caseID=' + value['case_id'] + '">查看評價</a> ';
+            table_html +='<td>' + '<a href="comment_for_requester.html?caseID=' + value['case_id'] + '">評價</a> ';
+            table_html +='<td>' + '<a href="comment_to_requester.html?caseID=' + value['case_id'] + '">查看評價</a> ';
             table_html +='</td></tr>';
         })
         
@@ -77,6 +80,7 @@ function deleteCase(id) {
             success: function (response) {
                 if(response.status == 200){
                     console.log(response);
+                    window.location.reload();
                 }
                 console.log(response);
             },

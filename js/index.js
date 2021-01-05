@@ -45,7 +45,7 @@ $(document).ready(function() {
                         console.log(response);
                         setCookie("userID", response.data[0]["id"]);
                     	alert(response.message);
-                    	window.location.assign("SA_All_Case.html");
+                    	window.location.assign("case_all.html");
                     }
                     else if(response.status != 200){
                             alert('此組合不存在!');
